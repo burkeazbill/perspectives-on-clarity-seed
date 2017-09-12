@@ -4,13 +4,46 @@ This repository is an effort to make it even easier to get started with VMware's
 I've provided two options here:
 - [Standalone Container Dockerfile](./Clarity-Seed-Container/Dockerfile): This is a fully encapsulated Clarity seed environment. To edit files you need to run **docker exec -it (container-name) /bin/bash** to gain access to the console. The Dockerfile has a few self-documenting comments at the bottom. This option requires Docker to already be installed and basic Docker knowledge.
 
-- **Dev Instance**: This is what you see in the root folder: 3 files. This option provides you the ability to have all the Node/Angular running in a container but have the Clarity seed files in a clarity-seed subdirectory locally on your container host!
+- **Dev Instance**: This is what you see in the root folder. This option provides you the ability to have all the Node/Angular running in a container but have the Clarity seed files in a clarity-seed subdirectory locally on your container host so that you may customize and test as needed.
 
 ## Dev Instance Usage Instructions:
 - Make sure you have **git** installed. If you're looking at this page, hopefully you already do!
 - Make sure you also have **docker** installed
 - Have an editor you are comfortable with. Personally, I've been happy with [Visual Studio Code](https://code.visualstudio.com/) 
 
+### Customize for your environment:
+Before you run the build.sh, you should edit the /src/vroc.service.ts file to connect to YOUR vRealize Orchestrator server.
+
+### NOTE:
+At this time, due to the time restrictions of the Hackathon, some vRO server edits are required:
+- enable basic authentication on VRO
+  com.vmware.o11n.sso.basic-authentication.enabled = true
+in: /etc/vco/app-server/vmo.properties
+- Edit the /lib/vco/app-server/deploy/vco/WEB-INF/web.xml by inserting the following code before the final closing tag of the file:
+```
+<filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+        <init-param>
+            <param-name>cors.allowed.methods</param-name>
+            <param-value>GET,POST,HEAD,OPTIONS,PUT</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.allowed.headers</param-name>
+            <param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Accept,Authorization</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.exposed.headers</param-name>
+            <param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+```
+
+### Build and Run !!
 Now that you have the prerequisites met, simply run the build.sh file! (OK Windows users, I provided the same file as build.cmd as well - but have not tested it!)
 
 Once you have run the file, the following should have happened:
