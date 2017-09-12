@@ -12,7 +12,7 @@ I've provided two options here:
 - Have an editor you are comfortable with. Personally, I've been happy with [Visual Studio Code](https://code.visualstudio.com/) 
 
 ### Customize for your environment:
-Before you run the build.sh, you should edit the /src/vroc.service.ts file to connect to YOUR vRealize Orchestrator server.
+Before you run the build.sh, you should edit the /src/vroc.service.ts and /src/app/vroc/vroc.component.ts files to connect to YOUR vRealize Orchestrator server.
 
 ### NOTE:
 At this time, due to the time restrictions of the Hackathon, some vRO server edits are required:
